@@ -43,19 +43,9 @@ export default function TaskForm({ onCreate }) {
           type="date"
           value={dueDate}
           onChange={(e) => setDueDate(e.target.value)}
-          className="border border-border rounded-md px-3 py-2 text-sm bg-paper text-ink font-mono
+          className="border border-border rounded-md px-3 py-2 text-sm bg-paper text-white font-mono w-full
                      focus:outline-none focus:ring-2 focus:ring-moss focus:border-moss"
         />
-        <button
-          type="submit"
-          disabled={submitting || !title.trim()}
-          className={`font-medium text-sm rounded-md px-4 py-2 whitespace-nowrap transition-all cursor-pointer
-            ${title.trim()
-              ? 'bg-gold hover:bg-gold/90 text-[#1a1006] active:scale-95'
-              : 'bg-paper border border-border text-ink-secondary cursor-not-allowed'}`}
-        >
-          {submitting ? 'Adding…' : 'Add task'}
-        </button>
       </div>
 
       <textarea
@@ -66,6 +56,16 @@ export default function TaskForm({ onCreate }) {
         className="border border-border rounded-md px-3 py-2 text-sm bg-paper text-ink resize-none
                    focus:outline-none focus:ring-2 focus:ring-moss focus:border-moss"
       />
+      <button
+          type="submit"
+          disabled={submitting || !title.trim()}
+          className={`font-medium text-sm rounded-md px-4 py-2 whitespace-nowrap transition-all cursor-pointer
+            ${title.trim()
+              ? 'bg-gold hover:bg-gold/90 text-[#1a1006] active:scale-95'
+              : 'bg-paper border border-border text-ink-secondary cursor-not-allowed'}`}
+        >
+          {submitting ? 'Adding…' : 'Add task'}
+        </button>
     </form>
   );
 }
