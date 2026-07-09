@@ -25,47 +25,47 @@ export default function Register() {
     }
   }
 
-return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 px-6">
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-paper px-6">
       <form
-        className="w-full max-w-sm bg-white border border-slate-200 rounded-xl shadow-sm p-8 flex flex-col gap-4"
+        className="w-full max-w-sm bg-paper-raised border border-border rounded-md p-8 flex flex-col gap-4"
         onSubmit={handleSubmit}
       >
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Create your account</h1>
-          <p className="text-slate-500 text-sm mt-1">Start tracking your tasks in a minute.</p>
+          <h1 className="text-xl font-medium text-ink">Create your account</h1>
+          <p className="text-ink-secondary text-sm mt-1">Start tracking your tasks in a minute.</p>
         </div>
 
         {error && (
-          <div className="bg-red-50 text-red-700 text-sm rounded-lg px-3 py-2">
+          <div className="bg-rust/10 text-rust text-sm rounded-md px-3 py-2 border border-rust/30">
             {error}
           </div>
         )}
 
-        <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+        <label className="flex flex-col gap-1 text-sm font-medium text-ink-secondary">
           Name
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
-            className="border border-slate-300 rounded-lg px-3 py-2 text-sm font-normal
-                       focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            className="border border-border rounded-md px-3 py-2 text-sm font-normal bg-paper text-ink
+                       focus:outline-none focus:ring-2 focus:ring-moss focus:border-moss"
           />
         </label>
 
-        <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+        <label className="flex flex-col gap-1 text-sm font-medium text-ink-secondary">
           Email
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="border border-slate-300 rounded-lg px-3 py-2 text-sm font-normal
-                       focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            className="border border-border rounded-md px-3 py-2 text-sm font-normal bg-paper text-ink
+                       focus:outline-none focus:ring-2 focus:ring-moss focus:border-moss"
           />
         </label>
 
-        <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+        <label className="flex flex-col gap-1 text-sm font-medium text-ink-secondary">
           Password
           <input
             type="password"
@@ -73,23 +73,23 @@ return (
             onChange={(e) => setPassword(e.target.value)}
             minLength={6}
             required
-            className="border border-slate-300 rounded-lg px-3 py-2 text-sm font-normal
-                       focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            className="border border-border rounded-md px-3 py-2 text-sm font-normal bg-paper text-ink
+                       focus:outline-none focus:ring-2 focus:ring-moss focus:border-moss"
           />
         </label>
 
         <button
           type="submit"
           disabled={loading}
-          className="mt-2 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60
-                     text-white font-semibold text-sm rounded-lg py-2.5 transition-colors"
+          className="mt-2 bg-gold hover:bg-gold/90 disabled:opacity-60
+                     text-[#1a1006] font-medium text-sm rounded-md py-2.5 transition-colors"
         >
           {loading ? 'Creating account…' : 'Sign up'}
         </button>
 
-        <p className="text-sm text-slate-500 text-center">
+        <p className="text-sm text-ink-secondary text-center">
           Already have an account?{' '}
-          <Link to="/login" className="text-indigo-600 font-semibold hover:underline">
+          <Link to="/login" className="text-moss font-medium hover:underline">
             Log in
           </Link>
         </p>

@@ -1,13 +1,15 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
-// A "controlled" form — React state is the source of truth for every
-// field. onCreate is passed down from the Dashboard, which owns the
-// actual task list (state lives as high up as it needs to, no higher).
 export default function TaskForm({ onCreate }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const titleRef = useRef(null);
+
+  useEffect(() => {
+    titleRef.current?.focus();
+  }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -19,46 +21,51 @@ export default function TaskForm({ onCreate }) {
       setTitle('');
       setDescription('');
       setDueDate('');
+      titleRef.current?.focus();
     } finally {
       setSubmitting(false);
     }
   }
 
-return (
-    <form
-      onSubmit={handleSubmit}
-      className="grid grid-cols-1 sm:grid-cols-[1.4fr_1fr_auto_auto] gap-2 mb-8"
-    >
-      <input
-        placeholder="Add a new task…"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        required
-        className="border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white
-                   focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-      />
-      <input
+  return (
+    <form onSubmit={handleSubmit} className="bg-paper-raised border border-border rounded-md p-4 mb-6 flex flex-col gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_auto] gap-2">
+        <input
+          ref={titleRef}
+          placeholder="Add a new task…"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+          className="border border-border rounded-md px-3 py-2 text-sm bg-paper text-ink
+                     focus:outline-none focus:ring-2 focus:ring-moss focus:border-moss"
+        />
+        <input
+          type="date"
+          value={dueDate}
+          onChange={(e) => setDueDate(e.target.value)}
+          className="border border-border rounded-md px-3 py-2 text-sm bg-paper text-ink font-mono
+                     focus:outline-none focus:ring-2 focus:ring-moss focus:border-moss"
+        />
+        <button
+          type="submit"
+          disabled={submitting || !title.trim()}
+          className={`font-medium text-sm rounded-md px-4 py-2 whitespace-nowrap transition-all cursor-pointer
+            ${title.trim()
+              ? 'bg-gold hover:bg-gold/90 text-[#1a1006] active:scale-95'
+              : 'bg-paper border border-border text-ink-secondary cursor-not-allowed'}`}
+        >
+          {submitting ? 'Adding…' : 'Add task'}
+        </button>
+      </div>
+
+      <textarea
         placeholder="Description (optional)"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-        className="border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white
-                   focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+        rows={2}
+        className="border border-border rounded-md px-3 py-2 text-sm bg-paper text-ink resize-none
+                   focus:outline-none focus:ring-2 focus:ring-moss focus:border-moss"
       />
-      <input
-        type="date"
-        value={dueDate}
-        onChange={(e) => setDueDate(e.target.value)}
-        className="border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white
-                   focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-      />
-      <button
-        type="submit"
-        disabled={submitting}
-        className="bg-amber-500 hover:bg-amber-600 disabled:opacity-60
-                   text-white font-semibold text-sm rounded-lg px-4 py-2 whitespace-nowrap transition-colors"
-      >
-        {submitting ? 'Adding…' : 'Add task'}
-      </button>
     </form>
   );
 }

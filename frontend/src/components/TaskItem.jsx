@@ -1,65 +1,69 @@
-const STATUS_LABELS = {
-  pending: 'Pending',
-  in_progress: 'In progress',
-  completed: 'Completed',
+import { useState } from 'react';
+
+const borderStyles = {
+  pending: 'border-l-ink-secondary/60',
+  in_progress: 'border-l-gold',
+  completed: 'border-l-moss',
 };
 
-const NEXT_STATUS = {
-  pending: 'in_progress',
-  in_progress: 'completed',
-  completed: 'pending',
+const selectStyles = {
+  pending: 'border-border bg-paper text-ink',
+  in_progress: 'border-gold-border bg-gold-bg text-gold',
+  completed: 'border-moss-border bg-moss-bg text-moss',
 };
 
 export default function TaskItem({ task, onUpdate, onDelete }) {
-  function cycleStatus() {
-    onUpdate(task.id, { ...task, status: NEXT_STATUS[task.status] });
+  const [updating, setUpdating] = useState(false);
+
+  async function handleStatusChange(e) {
+    setUpdating(true);
+    try {
+      await onUpdate(task.id, { ...task, status: e.target.value });
+    } finally {
+      setUpdating(false);
+    }
   }
-
-const statusStyles = {
-    pending: 'bg-slate-100 text-slate-600',
-    in_progress: 'bg-amber-100 text-amber-700',
-    completed: 'bg-emerald-100 text-emerald-700',
-  };
-
-  const borderStyles = {
-    pending: 'border-l-slate-300',
-    in_progress: 'border-l-amber-400',
-    completed: 'border-l-emerald-500',
-  };
 
   return (
     <li
-      className={`flex items-start gap-4 bg-white border border-slate-200 border-l-4 ${borderStyles[task.status]}
-                  rounded-lg px-4 py-3 ${task.status === 'completed' ? 'opacity-70' : ''}`}
+      className={`bg-paper-raised border border-border border-l-2 border-dashed ${borderStyles[task.status]}
+                  rounded px-4 py-3 flex flex-col gap-2 ${task.status === 'completed' ? 'opacity-70' : ''}`}
     >
-      <button
-        onClick={cycleStatus}
-        title="Click to change status"
-        className={`shrink-0 text-xs font-mono uppercase tracking-wide rounded-md px-2.5 py-1 ${statusStyles[task.status]}`}
-      >
-        {STATUS_LABELS[task.status]}
-      </button>
-
-      <div className="flex-1 min-w-0">
-        <p className={`font-semibold text-sm text-slate-900 ${task.status === 'completed' ? 'line-through text-slate-400' : ''}`}>
+      <div className="flex items-start justify-between gap-3">
+        <p className={`font-medium text-sm text-ink ${task.status === 'completed' ? 'line-through text-ink-secondary' : ''}`}>
           {task.title}
         </p>
-        {task.description && (
-          <p className="text-sm text-slate-500 mt-0.5">{task.description}</p>
-        )}
-        {task.due_date && (
-          <p className="text-xs font-mono text-slate-400 mt-1">
-            Due {new Date(task.due_date).toLocaleDateString()}
-          </p>
-        )}
+        <button
+          onClick={() => onDelete(task.id)}
+          className="shrink-0 font-mono text-xs uppercase text-white bg-red-500 border border-red-500  rounded px-2 py-1
+                     cursor-pointer hover:bg-red-600 hover:text-white hover:border-red-600 transition-colors"
+        >
+          Delete
+        </button>
       </div>
 
-      <button
-        onClick={() => onDelete(task.id)}
-        className="shrink-0 text-xs text-slate-400 hover:text-red-600 transition-colors"
-      >
-        Delete
-      </button>
+      {task.description && (
+        <p className="text-sm text-ink-secondary">{task.description}</p>
+      )}
+
+      <div className="flex items-center justify-between gap-3 mt-1">
+        <p className="font-mono text-xs text-ink-secondary">
+          {task.due_date ? `Due ${new Date(task.due_date).toLocaleDateString()}` : '—'}
+        </p>
+
+        <select
+          value={task.status}
+          onChange={handleStatusChange}
+          disabled={updating}
+          className={`font-mono text-xs uppercase tracking-wide rounded border
+                      px-2 py-1.5 cursor-pointer disabled:opacity-50
+                      focus:outline-none focus:ring-2 focus:ring-moss ${selectStyles[task.status]}`}
+        >
+          <option value="pending">Pending</option>
+          <option value="in_progress">In progress</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
     </li>
   );
 }
