@@ -80,29 +80,31 @@ export default function Dashboard() {
 
         <TaskForm onCreate={handleCreate} />
 
-        <div className="flex gap-2 mb-5">
-          {[
-            { key: 'all', label: 'All' },
-            { key: 'pending', label: 'Pending' },
-            { key: 'in_progress', label: 'In progress' },
-            { key: 'completed', label: 'Completed' },
-          ].map((opt) => (
-            <button
-              key={opt.key}
-              onClick={() => setFilter(opt.key)}
-              className={`font-mono text-xs uppercase tracking-wide rounded px-3 py-1.5 border transition-colors
-                ${filter === opt.key ? filterStyles[opt.key] : filterInactive}`}
-            >
-              {opt.label}
-            </button>
-          ))}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-5">
+          <div className="flex flex-wrap gap-2">
+            {[
+              { key: 'all', label: 'All' },
+              { key: 'pending', label: 'Pending' },
+              { key: 'in_progress', label: 'In progress' },
+              { key: 'completed', label: 'Completed' },
+            ].map((opt) => (
+              <button
+                key={opt.key}
+                onClick={() => setFilter(opt.key)}
+                className={`font-mono text-xs uppercase tracking-wide rounded px-3 py-1.5 border transition-colors
+                  ${filter === opt.key ? filterStyles[opt.key] : filterInactive}`}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
 
           <input
             type="text"
             placeholder="Search tasks…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="ml-auto w-48 border border-border rounded px-3 py-1.5 text-sm bg-paper-raised text-ink
+            className="w-full sm:w-48 sm:ml-auto border border-border rounded px-3 py-1.5 text-sm bg-paper-raised text-ink
                       focus:outline-none focus:ring-2 focus:ring-moss focus:border-moss"
           />
         </div>
