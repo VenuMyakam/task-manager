@@ -25,6 +25,10 @@ body {
   background: var(--color-paper);
 }
 
+input[type="date"] {
+  color-scheme: dark;
+}
+
 input[type="date"]::-webkit-datetime-edit {
   color: white;
 }
