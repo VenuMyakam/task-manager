@@ -43,7 +43,7 @@ export default function TaskForm({ onCreate }) {
           type="date"
           value={dueDate}
           onChange={(e) => setDueDate(e.target.value)}
-          className="border border-border rounded-md px-3 py-2 text-sm bg-paper text-white w-full
+          className="border border-border rounded-md px-3 py-2 text-sm bg-paper text-ink w-full
                      focus:outline-none focus:ring-2 focus:ring-moss focus:border-moss"
         />
       </div>
